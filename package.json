@@ -1,0 +1,24 @@
+{
+  "name": "elastic-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MadhushaniHewagama/Elastic-Search.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MadhushaniHewagama/Elastic-Search/issues"
+  },
+  "homepage": "https://github.com/MadhushaniHewagama/Elastic-Search#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "elasticsearch": "^16.7.1",
+    "express": "^4.17.1"
+  }
+}
