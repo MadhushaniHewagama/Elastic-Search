@@ -56,12 +56,12 @@ app.get('/search', function (req, res){
     from: 0, 
     query: {
       match: {
-          name: req.query['q']
+        lyrics: req.query['q']
       }
     }
   }
   // perform the actual search passing in the index, the search query and the type
-  client.search({index:'scotch.io-test',  body:body, type:'cities_list'})
+  client.search({index:'scotch.io-songs',  body:body, type:'songs_list'})
   .then(results => {
     res.send(results.hits.hits);
   })

@@ -1,7 +1,7 @@
 {
   "name": "elastic-node",
   "version": "1.0.0",
-  "description": "",
+  "description": "Elastic search for sinhala songs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/MadhushaniHewagama/Elastic-Search.git"
   },
-  "author": "",
+  "author": "Madhushani Hewagama",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/MadhushaniHewagama/Elastic-Search/issues"

@@ -5,7 +5,7 @@
 <div class="container" id="app">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <h1>Search Cities around the world</h1>
+            <h1>Search Sinhala Songs</h1>
         </div>
     </div>
     <div class="row">
@@ -23,12 +23,13 @@
         <div class="col-md-3" v-for="result in results">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                <!-- display the city name and country  -->
-                    {{ result._source.name }}, {{ result._source.country }}
+                <!--  display the ctrack_name_si and album_name_si  -->
+                    {{ result._source.track_name_si }}, {{ result._source.album_name_si }}
                 </div>
                 <div class="panel-body">
                 <!-- display the latitude and longitude of the city  -->
-                    <p>lat:{{ result._source.lat }}, long: {{ result._source.lng }}.</p>
+                    <p>Artist Name:{{ result._source.artist_name_si }}, Rate: {{ result._source.artist_rating }}.</p>
+                    <p>Lyrics:{{result._source.lyrics}}</p>
                 </div>
             </div>
         </div>

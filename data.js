@@ -16,9 +16,9 @@ client.ping({
      }
  });
 
- // create a new index called scotch.io-test. If the index has already been created, this function fails safely
+ // create a new index called scotch.io-songs. If the index has already been created, this function fails safely
 client.indices.create({
-      index: 'scotch.io-test'
+      index: 'scotch.io-songs'
   }, function(error, response, status) {
       if (error) {
           console.log(error);
@@ -29,9 +29,9 @@ client.indices.create({
 
 // // add a data to the index that has already been created
 // client.index({
-//      index: 'scotch.io-tutorial',
+//      index: 'scotch.io-songs',
 //      id: '1',
-//      type: 'cities_list',
+//      type: 'songs_list',
 //      body: {
 //          "Key1": "Content for key one",
 //          "Key2": "Content for key two",
@@ -42,19 +42,19 @@ client.indices.create({
 //  });
 
  // require the array of cities that was downloaded
-const cities = require('./cities.json');
+const cities = require('./corpus.json');
 // declare an empty array called bulk
 var bulk = [];
-//loop through each city and create and push two objects into the array in each loop
+//loop through each song and create and push two objects into the array in each loop
 //first object sends the index and type you will be saving the data as
 //second object is the data you want to index
-cities.forEach(city =>{
+cities.forEach(song =>{
    bulk.push({index:{ 
-                 _index:"scotch.io-test", 
-                 _type:"cities_list",
+                 _index:"scotch.io-songs", 
+                 _type:"songs_list",
              }          
          })
-  bulk.push(city)
+  bulk.push(song)
 })
 //perform bulk indexing of the data passed
 client.bulk({body:bulk}, function( err, response  ){ 
