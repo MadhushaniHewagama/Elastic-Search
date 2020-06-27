@@ -58,10 +58,19 @@ app.get('/search', function (req, res){
       match: {
         lyrics: req.query['q']
       }
+     // to check exsact words with order
+      // match_phrase:{
+      //   lyrics:{
+      //     query:req.query['q'],
+      //     slop:6
+      //   }        
+      // }
+      //get all
+      //match_all:{}
     }
   }
   // perform the actual search passing in the index, the search query and the type
-  client.search({index:'scotch.io-songs',  body:body, type:'songs_list'})
+  client.search({index:'sinhala-songs',  body:body, type:'songs_list'})
   .then(results => {
     res.send(results.hits.hits);
   })

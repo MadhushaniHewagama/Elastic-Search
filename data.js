@@ -16,9 +16,9 @@ client.ping({
      }
  });
 
- // create a new index called scotch.io-songs. If the index has already been created, this function fails safely
+ // create a new index called sinhala-songs. If the index has already been created, this function fails safely
 client.indices.create({
-      index: 'scotch.io-songs'
+      index: 'sinhala-songs'
   }, function(error, response, status) {
       if (error) {
           console.log(error);
@@ -29,7 +29,7 @@ client.indices.create({
 
 // // add a data to the index that has already been created
 // client.index({
-//      index: 'scotch.io-songs',
+//      index: 'sinhala-songs',
 //      id: '1',
 //      type: 'songs_list',
 //      body: {
@@ -42,7 +42,7 @@ client.indices.create({
 //  });
 
  // require the array of cities that was downloaded
-const cities = require('./corpus.json');
+const cities = require('./data/corpus.json');
 // declare an empty array called bulk
 var bulk = [];
 //loop through each song and create and push two objects into the array in each loop
@@ -50,7 +50,7 @@ var bulk = [];
 //second object is the data you want to index
 cities.forEach(song =>{
    bulk.push({index:{ 
-                 _index:"scotch.io-songs", 
+                 _index:"sinhala-songs", 
                  _type:"songs_list",
              }          
          })
