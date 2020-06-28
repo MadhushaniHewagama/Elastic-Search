@@ -24,12 +24,19 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                 <!--  display the ctrack_name_si and album_name_si  -->
-                    {{ result._source.track_name_si }}, {{ result._source.album_name_si }}
+                    {{ result._source.songName }} ({{ result._source.songNameSinglish }})
                 </div>
                 <div class="panel-body">
                 <!-- display the latitude and longitude of the city  -->
-                    <p>Artist Name:{{ result._source.artist_name_si }}, Rate: {{ result._source.artist_rating }}.</p>
-                    <p>Lyrics:{{result._source.lyrics}}</p>
+                     <p>Artist Names:{{ result._source.artists }}</p>
+                     <p>Genre:{{ result._source.genre }}</p>
+                     <p>Lyrics Creater:{{ result._source.lyricsCreater }}</p>
+                     <p>Music:{{ result._source.music }}</p>
+                     <p>Movie:{{ result._source.movie }}</p>
+                     <p>Key:{{ result._source.key }}</p>
+                     <p>Beat:{{ result._source.beat }}</p>
+                     <p>Views:{{ result._source.views }}</p>
+                    <p>Lyrics:{{result._source.lyrics}}</p> 
                 </div>
             </div>
         </div>

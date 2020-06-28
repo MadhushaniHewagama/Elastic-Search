@@ -57,22 +57,14 @@ app.get('/search', function (req, res){
     query: {
       multi_match: {
         query: req.query['q'],
-        fields: ["track_id","track_name_si","track_rating","album_name_si","artist_name_si","lyrics"]
+        fields: ["songName","lyrics","artists"]
 
       }
-     // to check exsact words with order
-      // match_phrase:{
-      //   lyrics:{
-      //     query:req.query['q'],
-      //     slop:6
-      //   }        
-      // }
-      //get all
-      //match_all:{}
+
     }
   }
   // perform the actual search passing in the index, the search query and the type
-  client.search({index:'sinhala-songs',  body:body, type:'songs_list'})
+  client.search({index:'sinhala-songs_lyrics_data',  body:body, type:'sinhala_songs_lyrics'})
   .then(results => {
     res.send(results.hits.hits);
   })
