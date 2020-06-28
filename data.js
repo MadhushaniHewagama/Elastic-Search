@@ -18,7 +18,7 @@ client.ping({
 
  // create a new index called sinhala-songs. If the index has already been created, this function fails safely
 client.indices.create({
-      index: 'sinhala-songs_lyrics_data'
+      index: 'sinhala-song_lyrics_data'
   }, function(error, response, status) {
       if (error) {
           console.log(error);
@@ -33,8 +33,8 @@ var bulk = [];
 
 cities.forEach(song =>{
    bulk.push({index:{ 
-                 _index:"sinhala-songs_lyrics_data", 
-                 _type:"sinhala_songs_lyrics",
+                 _index:"sinhala-song_lyrics_data", 
+                 _type:"sinhala_song_lyrics",
              }          
          })
   bulk.push(song)

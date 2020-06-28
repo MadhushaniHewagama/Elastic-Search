@@ -8,17 +8,15 @@ class SinhlaSongsLyricsSpider(scrapy.Spider):
     name = "sinhala_songs_spider"
 
     start_urls = ["https://sinhalasongbook.com/all-sinhala-song-lyrics-and-chords/?_page=" + str(x) for x in range(2,21)]    
-
-    def parse(self, response):
-
+  
+    def parse(self, response):        
         for href in response.xpath("//main[contains(@id, 'genesis-content')]//div[contains(@class, 'entry-content')]//div[contains(@class, 'pt-cv-wrapper')]//h4[contains(@class, 'pt-cv-title')]/a/@href"):
-            href =  href.extract()
+            href =  href.extract()           
             yield scrapy.Request(href, callback=self.parse_lyrics_from_href)
 
     def parse_lyrics_from_href(self,response):
         
         item = SinhalaSongsItem()
-        
         item['url'] = response.url
         
         item['songName'] = re.split('\||–|-',response.xpath("//div[contains(@class, 'site-inner')]//header[contains(@class, 'entry-header')]/h1/text()").extract()[0])[1].strip()
@@ -26,16 +24,28 @@ class SinhlaSongsLyricsSpider(scrapy.Spider):
         item['songNameSinglish'] = re.split('\||–|-',response.xpath("//div[contains(@class, 'site-inner')]//header[contains(@class, 'entry-header')]/h1/text()").extract()[0])[0].strip()
 
         artists = response.xpath("//div[contains(@class, 'entry-content')]//div[contains(@class, 'su-column su-column-size-3-6')]//span[contains(@class, 'entry-categories')]/a/text()").extract()
+        
         if len(artists)==0:
             item['artists'] = []
         else:
             item['artists'] = artists
-        
-        genre = response.xpath("//div[contains(@class, 'entry-content')]//div[contains(@class, 'su-column su-column-size-3-6')]//span[contains(@class, 'entry-tags')]/a/text()").extract()
-        if len(genre) == 0:
-            item['genre'] = []
+
+        # s_artis = re.split('/',response.xpath("//*[@id='genesis-content']/article/div[3]/h6/text()").extract()[0])[0].strip()
+        s_artis = response.xpath("//*[@id='genesis-content']/article/div[3]/h6/text()").extract()
+        if(len(s_artis)==0):
+            item['artists_name_sinhala'] =[]
         else:
-            item['genre'] = genre          
+            s_lst=[]
+            for i in s_artis:
+                s_lst.append(re.split('/',i)[0].strip())
+            item['artists_name_sinhala'] = s_lst
+
+      
+        tags = response.xpath("//div[contains(@class, 'entry-content')]//div[contains(@class, 'su-column su-column-size-3-6')]//span[contains(@class, 'entry-tags')]/a/text()").extract()
+        if len(tags) == 0:
+            item['tags'] = []
+        else:
+            item['tags'] = tags          
         
         lyricsCreater = response.xpath("//div[contains(@class, 'entry-content')]//div[contains(@class, 'su-column su-column-size-2-6')]//span[contains(@class, 'lyrics')]/a/text()").extract()
         if len(lyricsCreater) == 0:

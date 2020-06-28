@@ -33,8 +33,8 @@
                 </div>
                 <div class="panel-body">
                 <!-- display the latitude and longitude of the city  -->
-                     <p>Artist Names:{{ result._source.artists }}</p>
-                     <p>Genre:{{ result._source.genre }}</p>
+                     <p>Artist Names:{{ result._source.artists_name_sinhala }} ({{result._source.artists}})</p>
+                     <p>Tags:{{ result._source.tags }}</p>
                      <p>Lyrics Creater:{{ result._source.lyricsCreater }}</p>
                      <p>Music:{{ result._source.music }}</p>
                      <p>Movie:{{ result._source.movie }}</p>

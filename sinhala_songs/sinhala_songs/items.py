@@ -14,7 +14,7 @@ class SinhalaSongsItem(scrapy.Item):
     songName = scrapy.Field()
     songNameSinglish = scrapy.Field()
     artists = scrapy.Field()
-    genre = scrapy.Field()
+    tags=scrapy.Field()
     lyricsCreater = scrapy.Field()
     music = scrapy.Field()
     movie = scrapy.Field()
@@ -22,6 +22,8 @@ class SinhalaSongsItem(scrapy.Item):
     beat = scrapy.Field()
     lyrics = scrapy.Field()
     views = scrapy.Field()
+    artists_name_sinhala=scrapy.Field()
+    
 
     
 
