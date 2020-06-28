@@ -55,8 +55,10 @@ app.get('/search', function (req, res){
     size: 200,
     from: 0, 
     query: {
-      match: {
-        lyrics: req.query['q']
+      multi_match: {
+        query: req.query['q'],
+        fields: ["track_id","track_name_si","track_rating","album_name_si","artist_name_si","lyrics"]
+
       }
      // to check exsact words with order
       // match_phrase:{
