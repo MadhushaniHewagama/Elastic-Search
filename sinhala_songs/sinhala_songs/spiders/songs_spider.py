@@ -2,12 +2,13 @@ from scrapy.spiders import SitemapSpider
 
 
 class LyricsSpider(SitemapSpider):
-    name = "sinhala_lyrics"
+    name = "sinhala_songs"
     allowed_domains = ['lyricslk.com']
     sitemap_urls = [
         'http://lyricslk.com/sitemap.xml'
     ]
     sitemap_rules = [('^(?!.*artist).*$', 'parse')]
+
    
     def parse(self, response):
         song_lines = response.xpath('//*[@id="lyricsBody"]/text()').getall()

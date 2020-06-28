@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for sinhala_lyrics project
+# Scrapy settings for sinhala_songs project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,14 +9,14 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'sinhala_lyrics'
+BOT_NAME = 'sinhala_songs'
 
-SPIDER_MODULES = ['sinhala_lyrics.spiders']
-NEWSPIDER_MODULE = 'sinhala_lyrics.spiders'
+SPIDER_MODULES = ['sinhala_songs.spiders']
+NEWSPIDER_MODULE = 'sinhala_songs.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'sinhala_lyrics (+http://www.yourdomain.com)'
+#USER_AGENT = 'sinhala_songs (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -47,13 +47,13 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'sinhala_lyrics.middlewares.SinhalaLyricsSpiderMiddleware': 543,
+#    'sinhala_songs.middlewares.SinhalaSongsSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'sinhala_lyrics.middlewares.SinhalaLyricsDownloaderMiddleware': 543,
+#    'sinhala_songs.middlewares.SinhalaSongsDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -65,7 +65,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    'sinhala_lyrics.pipelines.SinhalaLyricsPipeline': 300,
+#    'sinhala_songs.pipelines.SinhalaSongsPipeline': 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)

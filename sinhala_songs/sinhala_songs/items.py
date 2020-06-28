@@ -8,7 +8,7 @@
 import scrapy
 
 
-class SinhalaLyricsItem(scrapy.Item):
+class SinhalaSongsItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass

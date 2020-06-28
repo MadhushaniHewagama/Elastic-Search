@@ -5,6 +5,7 @@ https://medium.com/analytics-vidhya/prepare-a-corpus-in-sinhala-language-by-craw
 scrapy startproject sinhala_lyrics
 
 ##### run the created spider ############
+Navigate to the project’s top level directory and run
 scrapy crawl sinhala_lyrics -o output.json
 
 ###### convert to sinhala ##########
