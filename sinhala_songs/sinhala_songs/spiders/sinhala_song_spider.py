@@ -1,103 +1,69 @@
-import re
-import pickle
 import scrapy
-from sinhala_songs.items import SinhalaSongsItem
-# from mtranslate import translate
+import requests
+from scrapy.spiders import SitemapSpider
+from scrapy.http.request import Request
+import re
+import os
 
 class SinhlaSongsLyricsSpider(scrapy.Spider):
     name = "sinhala_songs_spider"
-
+    allowed_domains = ["sinhalasongbook.com"]
     start_urls = ["https://sinhalasongbook.com/all-sinhala-song-lyrics-and-chords/?_page=" + str(x) for x in range(1,23)]    
-  
+    c=0
     def parse(self, response):        
         for href in response.xpath("//main[contains(@id, 'genesis-content')]//div[contains(@class, 'entry-content')]//div[contains(@class, 'pt-cv-wrapper')]//h4[contains(@class, 'pt-cv-title')]/a/@href"):
-            href =  href.extract()           
+            href =  href.extract()  
+            self.c=self.c+1         
             yield scrapy.Request(href, callback=self.parse_lyrics_from_href)
 
     def parse_lyrics_from_href(self,response):
-        
-        item = SinhalaSongsItem()
-        item['url'] = response.url
-        
-        item['songName'] = re.split('\||–|-',response.xpath("//div[contains(@class, 'site-inner')]//header[contains(@class, 'entry-header')]/h1/text()").extract()[0])[1].strip()
-        
-        item['songNameSinglish'] = re.split('\||–|-',response.xpath("//div[contains(@class, 'site-inner')]//header[contains(@class, 'entry-header')]/h1/text()").extract()[0])[0].strip()
+        song_page = response
+        title = (song_page.xpath('//div[@class="entry-content"]/h2/text()')).get()
+        title_sinhala = (song_page.xpath('//span[@class="sinTitle"]/text()')).get()
 
-        artists = response.xpath("//div[contains(@class, 'entry-content')]//div[contains(@class, 'su-column su-column-size-3-6')]//span[contains(@class, 'entry-categories')]/a/text()").extract()
-        
-        if len(artists)==0:
-            item['artists'] = []
-        else:
-            item['artists'] = artists
+        artist_name = song_page.xpath('//div[@class="su-row"]//span[@class="entry-categories"]//a/text()').extract()
+        artist_name_data = (','.join(artist_name))
 
-        s_artis = response.xpath("//*[@id='genesis-content']/article/div[3]/h6/text()").extract()
-        if(len(s_artis)==0):
-            item['artists_name_sinhala'] =[]
-        else:
-            s_lst=[]
-            for i in s_artis:
-                s_lst.append(re.split('/',i)[0].strip())
-            item['artists_name_sinhala'] = s_lst
-
-      
-        genre = response.xpath("//div[contains(@class, 'entry-content')]//div[contains(@class, 'su-column su-column-size-3-6')]//span[contains(@class, 'entry-tags')]/a/text()").extract()
-        if len(genre) == 0:
-            item['genre'] = []
-        else:
-            item['genre'] = genre          
+        genre = song_page.xpath('//div[@class="su-row"]//span[@class="entry-tags"]//a/text()').extract()
+        genre_data = (','.join(genre))
         
-        lyricsCreater = response.xpath("//div[contains(@class, 'entry-content')]//div[contains(@class, 'su-column su-column-size-2-6')]//span[contains(@class, 'lyrics')]/a/text()").extract()
-        if len(lyricsCreater) == 0:
-            item['lyricsCreater'] = []
-        else:
-            item['lyricsCreater'] = lyricsCreater
-
-        music = response.xpath("//div[contains(@class, 'entry-content')]//div[contains(@class, 'su-column su-column-size-2-6')]//span[contains(@class, 'music')]/a/text()").extract()
-        if len(music) == 0:
-            item['music'] = []
-        else:
-            item['music'] = music
+        writer_name = song_page.xpath('//div[@class="su-row"]//span[@class="lyrics"]//a/text()').extract()
+        writer_name_data = (','.join(writer_name))
         
-        movie = response.xpath("//div[contains(@class, 'entry-content')]//div[contains(@class, 'su-column su-column-size-2-6')]//span[contains(@class, 'movies')]/a/text()").extract()
-        if len(movie) == 0:
-            item['movie'] = []
-        else:
-            item['movie'] = movie
-        
-        key_n_beat = re.split('\|',  response.xpath("//div[contains(@class, 'entry-content')]/h3/text()").extract()[0])
-        try:
-            item['key'] = re.split(':', key_n_beat[0])[1].strip()
-        except IndexError:
-            item['key'] = key_n_beat[0].strip()
-            item['beat'] = ''
-        try:
-            item['beat'] = re.split(':', key_n_beat[1])[1].strip()
-        except:
-            item['beat'] = ''
-        
-        temp_content = response.xpath("//div[contains(@class, 'entry-content')]//pre/text()").extract()
-        tempory_lyric = ''
-        new_line_1 = True
-        new_line_2 = False
-        for line in temp_content:
-            line_content = (re.sub("[\da-zA-Z\-—\[\]\t\@\_\!\#\+\$\%\^\&\*\(\)\<\>\?\|\}\{\~\:\∆\/]", "", line)).split('\n')
-            for line1 in line_content:
-                if line1 == '' or line1.isspace():
-                    if not new_line_2:
-                        new_line_2 = True
-                        tempory_lyric += '\n'
-                else:
-                    new_line_1 = False
-                    new_line_2 = False
-                    tempory_lyric += line1.strip()
-            if not new_line_1:
-                new_line_1 = True
-                tempory_lyric += '\n'
-        item['lyrics'] = tempory_lyric
+        music  = song_page.xpath('//div[@class="su-row"]//span[@class="music"]//a/text()').extract()
+        music_data = (','.join(music))
 
-        try:
-            item['views'] = int(re.sub('[^0-9,]', "", response.xpath("//div[contains(@class, 'entry-content')]/div[contains(@class, 'tptn_counter')]/text()").extract()[0]).replace(',', ''))
-        except:
-            item['views'] = None
+        views = song_page.xpath('//div[@class="tptn_counter"]/text()').extract()
+        views_data = ','.join(views).replace("Visits","").replace("-","").strip()
 
-        yield item
+        songBody = (song_page.xpath('//div[@class="entry-content"]//pre/text()').extract())
+        song_body_split = []
+        for parts in songBody:
+            lines = parts.split('\n')
+            for line in lines:
+                song_body_split.append(line)
+        
+        song = ""
+        chords = ""
+
+        for line in song_body_split:
+            if(re.search('[a-zA-Z]', line)):
+               chords = chords + line +"\n"
+            else:
+                if(len(line)!=0):
+                    line = line.replace('+','')
+                    line = line.replace('|','')
+                    line.strip()
+                    song = song + line + os.linesep
+                
+        
+        yield {
+            'title': title,
+            'title_sinhala': title_sinhala,
+            'artist_name' : artist_name_data,
+            'genre' : genre_data,
+            'views': views_data,
+            'writer_name' : writer_name_data,
+            'music' : music_data,
+            'song' : song
+        }
