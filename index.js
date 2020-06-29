@@ -57,14 +57,14 @@ app.get('/search', function (req, res){
     query: {
       multi_match: {
         query: req.query['q'],
-        fields: ["songName","lyrics","artists","artists_name_sinhala","tags"]
+        fields: ["songName","lyrics","artists","artists_name_sinhala","genre"]
 
       }
 
     }
   }
   // perform the actual search passing in the index, the search query and the type
-  client.search({index:'sinhala-song_lyrics_data',  body:body, type:'sinhala_song_lyrics'})
+  client.search({index:'sinhala-songs_lyrics',  body:body, type:'sinhala_songs'})
   .then(results => {
     res.send(results.hits.hits);
   })

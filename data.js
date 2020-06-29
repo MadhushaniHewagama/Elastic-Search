@@ -6,7 +6,7 @@ const client = new elasticsearch.Client({
 });
 // ping the client to be sure Elasticsearch is up
 client.ping({
-     requestTimeout: 30000000,
+     requestTimeout: 3000,
  }, function(error) {
  // at this point, eastic search is down, please check your Elasticsearch service
      if (error) {
@@ -18,7 +18,7 @@ client.ping({
 
  // create a new index called sinhala-songs. If the index has already been created, this function fails safely
 client.indices.create({
-      index: 'sinhala-song_lyrics_data'
+      index: 'sinhala-songs_lyrics'
   }, function(error, response, status) {
       if (error) {
           console.log(error);
@@ -31,10 +31,10 @@ client.indices.create({
 const songs = require('./sinhala_songs/sinhala_songs/sinhala_song_lyrics.json');
 var bulk = [];
 
-cities.forEach(song =>{
+songs.forEach(song =>{
    bulk.push({index:{ 
-                 _index:"sinhala-song_lyrics_data", 
-                 _type:"sinhala_song_lyrics",
+                 _index:"sinhala-songs_lyrics", 
+                 _type:"sinhala_songs",
              }          
          })
   bulk.push(song)
