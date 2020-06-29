@@ -28,7 +28,7 @@ client.indices.create({
 });
 
 
-const cities = require('./sinhala_songs/sinhala_songs/sinhala_song_lyrics.json');
+const songs = require('./sinhala_songs/sinhala_songs/sinhala_song_lyrics.json');
 var bulk = [];
 
 cities.forEach(song =>{
@@ -44,6 +44,6 @@ client.bulk({body:bulk}, function( err, response  ){
          if( err ){ 
              console.log("Failed Bulk operation".red, err) 
          } else { 
-             console.log("Successfully imported %s".green, cities.length); 
+             console.log("Successfully imported %s".green, songs.length); 
          } 
 }); 
