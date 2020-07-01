@@ -5,15 +5,13 @@ from scrapy.http.request import Request
 import re
 import os
 
-class SinhlaSongsLyricsSpider(scrapy.Spider):
+class SinhlaSongSpider(scrapy.Spider):
     name = "sinhala_songs_spider"
     allowed_domains = ["sinhalasongbook.com"]
     start_urls = ["https://sinhalasongbook.com/all-sinhala-song-lyrics-and-chords/?_page=" + str(x) for x in range(1,23)]    
-    c=0
-    def parse(self, response):        
+    def parse(self, response):       
         for href in response.xpath("//main[contains(@id, 'genesis-content')]//div[contains(@class, 'entry-content')]//div[contains(@class, 'pt-cv-wrapper')]//h4[contains(@class, 'pt-cv-title')]/a/@href"):
-            href =  href.extract()  
-            self.c=self.c+1         
+            href =  href.extract()       
             yield scrapy.Request(href, callback=self.parse_lyrics_from_href)
 
     def parse_lyrics_from_href(self,response):
@@ -32,13 +30,16 @@ class SinhlaSongsLyricsSpider(scrapy.Spider):
         
         music  = song_page.xpath('//div[@class="su-row"]//span[@class="music"]//a/text()').extract()
         music_data = (','.join(music))
+        
+        movie  = song_page.xpath('//div[@class="su-row"]//span[@class="movies"]//a/text()').extract()
+        movie_data = (','.join(movie))
 
         views = song_page.xpath('//div[@class="tptn_counter"]/text()').extract()
         views_data = ','.join(views).replace("Visits","").replace("-","").strip()
 
-        songBody = (song_page.xpath('//div[@class="entry-content"]//pre/text()').extract())
+        song_body = (song_page.xpath('//div[@class="entry-content"]//pre/text()').extract())
         song_body_split = []
-        for parts in songBody:
+        for parts in song_body:
             lines = parts.split('\n')
             for line in lines:
                 song_body_split.append(line)
@@ -65,5 +66,6 @@ class SinhlaSongsLyricsSpider(scrapy.Spider):
             'views': views_data,
             'writer_name' : writer_name_data,
             'music' : music_data,
-            'song' : song
+            'song' : song,
+            'movie' : movie_data
         }

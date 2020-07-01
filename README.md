@@ -2,23 +2,23 @@
 site for more details : 
 https://www.codementor.io/@mgalarny/using-scrapy-to-build-your-own-dataset-cz24hsbp5
 
-# scrapped data site 
+create project :
+cmd: scrapy startproject sinhala_songs
+
+# scrapped data site (885 songs)
 https://sinhalasongbook.com/
 
-# My scrapped 13 meta datas and 1096 sinhala songs data 
-    url - url of song in this site
-    songName - song name in sinhala fonts
-    songNameSinglish  - song name in english fonts
-    artists - artists name list in sinhala fonts
-    genre - gere list of the song in english fonts
-    lyricsCreater - lyrics creater name list in english fonts
-    music - music creater name list in english
-    movie - list of movie name
-    key - keys of song
-    beat - beat of song
-    lyrics - lyrics in sinhala fonts
-    views - counts of views of the song
-    artists_name_sinhala - artics name in sinhala afonts
+# My scrapped 8 meta datas and 1096 sinhala songs data 
+    id -  
+    title_singlish -
+    title_sinhala-
+    artist_name-
+    genre-
+    writer_name-
+    music-
+    movie-
+    views-
+    lyrics-
 
 # run spider:
 go to directory of sinhala_songs/sinhala_songs and run
@@ -27,19 +27,15 @@ cmd:  scrapy crawl sinhala_songs_spider -o song_output.json
 # To translate:
 cmd : python sinhala_translater.py
 
-##### run elastic search ######
-https://www.digitalocean.com/community/tutorials/how-to-build-a-real-time-search-engine-with-node-vue-and-elasticsearch
+# To import singling always need to add path in backend/sinling directory
+cmd : SET PYTHONPATH=%cd%;%cd%\slim
 
-elastic_search_operation.js file include manage indexces queries
-data.js file run to create index using scrapped data
-index.js for search
+# create index with settings(index name - sinhala_songs)
+create index using PUT sinhala_songs {indexing_settings.json file data}
 
-#### RUN vue.js frontend and node.js backend #######
-# First create index by running
-cmd : node data.js
+# bulk data
+cmd : python add_data.py
 
-# Then run 
-cmd : node index.js
-
-
+# backend run
+cmd : python run.py
 
